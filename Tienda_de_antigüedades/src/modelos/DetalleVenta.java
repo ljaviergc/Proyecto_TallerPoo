@@ -2,30 +2,29 @@
 package modelos;
 
 
-public class Venta {
-    int id_venta;
+public class DetalleVenta {
+    int id;
     String id_piezas;
-    String fecha;
+    int cantidad;
     float pre_venta;
     
-    public Venta(){
+    public DetalleVenta(){
         
     }
 
-    public Venta(int id_venta, String id_piezas, String fecha, float pre_venta) {
-        this.id_venta = id_venta;
+    public DetalleVenta(int id, String id_piezas, int cantidad, float pre_venta) {
+        this.id = id;
         this.id_piezas = id_piezas;
-        this.fecha = fecha;
+        this.cantidad = cantidad;
         this.pre_venta = pre_venta;
     }
 
-    
-    public int getId_venta() {
-        return id_venta;
+    public int getId() {
+        return id;
     }
 
-    public void setId_venta(int id_venta) {
-        this.id_venta = id_venta;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getId_piezas() {
@@ -36,14 +35,14 @@ public class Venta {
         this.id_piezas = id_piezas;
     }
 
-    public String getFecha() {
-        return fecha;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
-    
+
     public float getPre_venta() {
         return pre_venta;
     }
@@ -51,10 +50,5 @@ public class Venta {
     public void setPre_venta(float pre_venta) {
         this.pre_venta = pre_venta;
     }
-    
-    
-    
-    
-    
     
 }

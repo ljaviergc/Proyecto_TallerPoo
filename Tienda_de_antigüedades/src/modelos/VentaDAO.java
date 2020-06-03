@@ -7,70 +7,60 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class VentaDAO implements CRUD{
+public class VentaDAO {
     Connection con;
     conexion cn = new conexion();
     PreparedStatement ps;
     ResultSet rs;
 
-    @Override
-    public List listar() {
-        List<Inventario> lista = new ArrayList<>();
-        String sql = "select * from piezas";
-        try{
-             con = cn.Conectar();
-             ps = con.prepareStatement(sql);
-             rs = ps.executeQuery();
-             
-             while ( rs.next() ){
-                 Inventario inv = new Inventario();
-                 inv.setId_pza( rs.getInt(1) );
-                 inv.setNom_pza( rs.getString(2) );
-                 inv.setPre_pza( rs.getFloat(3) );
-                 lista.add(inv);
-             }
-             
-         }catch(Exception e){
-             JOptionPane.showMessageDialog(null, "Error al intentar listar!");
-         }
-         return lista;
-    }
-
-    @Override
-    public int add(Object[] o) {
-        int r = 0;
-        String sql = "insert into detalle_ventas(id_piezas,fecha_venta,pre_venta)values(?,?,?)";
+    int r = 0;
+    
+    public String Idventa(){
+        String idv ="";
+        String sql = "select max(id_venta) from venta";
         try{
             con = cn.Conectar();
             ps = con.prepareStatement(sql);
-            ps.setObject(1, o[0]);
-            ps.setObject(2, o[1]);
-            ps.setObject(3 , o[2]);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                idv = rs.getString(1);
+            }
+        }catch(Exception e){
+                
+        }
+        return idv;
+    }
+    
+    public int DetalleVenta(DetalleVenta dv){
+        String sql = "insert into detalle_venta(id_piezas,cantidad,pre_venta)values(?,?,?)";
+        try{
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, dv.getId_piezas());
+            ps.setInt(2, dv.getCantidad());
+            ps.setFloat(3, dv.getPre_venta());
             r = ps.executeUpdate();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error al intentar agregar!");
+            JOptionPane.showMessageDialog(null, "Error al intentar registrar el Detalle!");
         }
         return r;
     }
-
-    @Override
-    public int actualizar(Object[] o) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
-    public void eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void buscar(Object[] ob) {
-        String sql = "select * from piezas";
+    
+    public int RegistrarVenta(Venta v){
+        Venta ven = new Venta();
+        String sql = "insert into venta(id_piezas,fecha,pre_venta)values(?,?,?)";
         try{
-            
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, v.getId_piezas());
+            ps.setString(2, v.getFecha());
+            ps.setFloat(3, v.getPre_venta()); 
+            r = ps.executeUpdate();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error al intentar buscar!");
+            JOptionPane.showMessageDialog(null, "Error al intentar registrar la venta!");
         }
+        return r;
     }
-
-   
+    
+    
 }

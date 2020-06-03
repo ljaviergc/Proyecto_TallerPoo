@@ -14,6 +14,26 @@ public class InventarioDAO implements CRUD{
     PreparedStatement ps;
     ResultSet rs;
 
+    public Inventario listarId(int id_pza){
+        Inventario i = new Inventario();
+        String sql = "select * from piezas where id_pza=?";
+        try{
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id_pza);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                i.setId_pza(rs.getInt(1));
+                i.setNom_pza(rs.getString(2));
+                i.setCant_pza(rs.getInt(3));
+                i.setPre_pza(rs.getFloat(4));
+            }
+        }catch(Exception e){
+            
+        }
+        return i;
+    }
+    
     @Override
     public List listar() {
          List<Inventario> lista = new ArrayList<>();
@@ -92,6 +112,8 @@ public class InventarioDAO implements CRUD{
             JOptionPane.showMessageDialog(null, "Error al intentar eliminar!");
         }
     }
+
+   
     
 
     
