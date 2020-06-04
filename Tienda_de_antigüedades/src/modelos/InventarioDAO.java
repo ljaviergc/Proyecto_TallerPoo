@@ -13,7 +13,9 @@ public class InventarioDAO implements CRUD{
     conexion cn = new conexion();
     PreparedStatement ps;
     ResultSet rs;
-
+    
+    int r;
+    
     public Inventario listarId(int id_pza){
         Inventario i = new Inventario();
         String sql = "select * from piezas where id_pza=?";
@@ -32,6 +34,20 @@ public class InventarioDAO implements CRUD{
             
         }
         return i;
+    }
+    
+    public int actualizarInventario(int cant, int idpza){
+        String sql = "update piezas set cant_pza=? where id_pza=?";
+        try{
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cant);
+            ps.setInt(2, idpza);
+            ps.executeUpdate();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al intentar actualizar el inventario!");
+        }
+        return r;
     }
     
     @Override
@@ -61,7 +77,7 @@ public class InventarioDAO implements CRUD{
 
     @Override
     public int add(Object[] o) {
-        int r = 0;
+        r = 0;
         String sql = "insert into piezas(nom_pza,cant_pza,pre_pza)values(?,?,?)";
         
         try{
@@ -79,7 +95,7 @@ public class InventarioDAO implements CRUD{
 
     @Override
     public int actualizar(Object[] o) {
-        int r = 0;
+        r = 0;
         String sql = "update piezas set nom_pza=?,cant_pza=?,pre_pza=? where id_pza=?";
         
         try{

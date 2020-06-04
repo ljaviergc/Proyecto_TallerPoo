@@ -8,23 +8,24 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Inventario;
 import modelos.InventarioDAO;
-import modelos.Venta;
-import modelos.VentaDAO;
+import modelos.Registro;
+import modelos.RegistroDAO;
+
 
 
 public class VentaForm extends javax.swing.JFrame {
     
-    Venta ven = new Venta();
-    VentaDAO vdao = new VentaDAO();
+
     InventarioDAO idao = new InventarioDAO();
     DefaultTableModel modelo = new DefaultTableModel();
     Inventario inv = new Inventario();
+    Registro reg = new Registro();
+    RegistroDAO rdao = new RegistroDAO();
     
     float Total;
     int cantpza;
     float subtotal;
-    int idp;
-    int cant;
+
     
     public VentaForm() {
         initComponents();
@@ -47,10 +48,10 @@ public class VentaForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnBuscarPza = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         ventaDisponible = new javax.swing.JTextField();
         ventaCant = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnEfectivo = new javax.swing.JRadioButton();
         btnTarjeta = new javax.swing.JRadioButton();
@@ -64,10 +65,10 @@ public class VentaForm extends javax.swing.JFrame {
         txtFecha = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         btnInventario = new javax.swing.JButton();
-        btnAdministrador = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_Venta = new javax.swing.JTable();
+        btnRegistro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,6 +78,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabel4.setText("Precio:");
 
+        btnAddITem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/plus.png"))); // NOI18N
         btnAddITem.setText("AGREGAR");
         btnAddITem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +88,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre:");
 
+        btnBuscarPza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/magnify.png"))); // NOI18N
         btnBuscarPza.setText("BUSCAR");
         btnBuscarPza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,45 +96,36 @@ public class VentaForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Cantidad:");
-
         jLabel8.setText("Disponibles:");
+
+        jLabel3.setText("Cantidad:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel3))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
                         .addComponent(ventaCant, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAddITem))
+                    .addComponent(ventaDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(22, 22, 22))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(ventaPieza, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscarPza))
-                            .addComponent(ventaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ventaDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(ventaPieza, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarPza))
+                    .addComponent(ventaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,16 +143,17 @@ public class VentaForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ventaPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ventaDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddITem)
-                    .addComponent(ventaCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(25, 25, 25))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAddITem)
+                        .addComponent(ventaCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Metodo de Pago"));
@@ -167,6 +162,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         btnTarjeta.setText("Tarjeta");
 
+        btnFinalizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/currency-usd.png"))); // NOI18N
         btnFinalizar.setText("FINALIZAR");
         btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,12 +190,9 @@ public class VentaForm extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnEfectivo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFinalizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
@@ -208,13 +201,16 @@ public class VentaForm extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ventaNTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 119, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnTarjeta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFecha)))
+                        .addComponent(txtFecha))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnFinalizar)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -250,6 +246,7 @@ public class VentaForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cart.png"))); // NOI18N
         btnInventario.setText("INVENTARIO");
         btnInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,13 +254,7 @@ public class VentaForm extends javax.swing.JFrame {
             }
         });
 
-        btnAdministrador.setText("ADMINISTRAR");
-        btnAdministrador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdministradorActionPerformed(evt);
-            }
-        });
-
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +272,14 @@ public class VentaForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla_Venta);
 
+        btnRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/database.png"))); // NOI18N
+        btnRegistro.setText("REGISTRO");
+        btnRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,52 +287,44 @@ public class VentaForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnAdministrador, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                                    .addComponent(btnInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                            .addComponent(btnRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAdministrador))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
-                    .addComponent(btnInventario))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnInventario)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRegistro)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalir))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministradorActionPerformed
-        Administrador adm = new Administrador();
-        adm.setVisible(true);
-    }//GEN-LAST:event_btnAdministradorActionPerformed
-
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        InventarioForm inv = new InventarioForm();
-        inv.setVisible(true);
+        InventarioForm invf = new InventarioForm();
+        invf.setVisible(true);
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -354,7 +345,7 @@ public class VentaForm extends javax.swing.JFrame {
         
         
         modelo = (DefaultTableModel)Tabla_Venta.getModel();
-        String idp = "";
+        String idp = ventaPieza.getText();
         String nompza = jTextField1.getText();
         float prepza = Float.parseFloat(ventaPrecio.getText());
         cantpza = Integer.parseInt(ventaCant.getValue().toString());
@@ -393,6 +384,7 @@ public class VentaForm extends javax.swing.JFrame {
     
     private void btnBuscarPzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPzaActionPerformed
          buscarPieza();
+         actualizarInventario();
     }//GEN-LAST:event_btnBuscarPzaActionPerformed
     void buscarPieza(){
         int id = Integer.parseInt(ventaPieza.getText());
@@ -412,36 +404,79 @@ public class VentaForm extends javax.swing.JFrame {
             }
         }
     }
-    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-       FinalizarVenta();
-       GuardarDetalles();
-    }//GEN-LAST:event_btnFinalizarActionPerformed
-
-    void FinalizarVenta(){
-        String idpzas = "";
-        String getid;
-        String fecha = txtFecha.getText();
-        float pre_venta = Total;
+    
+    void actualizarInventario(){
+        int idpza;
+        int cant;
         for(int i = 0 ; i < Tabla_Venta.getRowCount() ; i++){
-            getid = Tabla_Venta.getValueAt(i, 0).toString();
-            idpzas = idpzas + ", " + getid;
+            Inventario inv = new Inventario();
+            idpza = Integer.parseInt(Tabla_Venta.getValueAt(i, 0).toString());
+            cant = Integer.parseInt(Tabla_Venta.getValueAt(i, 2).toString());
+            inv = idao.listarId(idpza);
+            int inva = inv.getCant_pza() - cant;
+            idao.actualizarInventario(inva, idpza); 
         }
-        ven.setId_piezas(idpzas);
-        ven.setFecha(fecha);
-        ven.setPre_venta(pre_venta);
-        vdao.RegistrarVenta(ven);
     }
     
-    void GuardarDetalles(){
-        String idv = vdao.Idventa();
-        int idve = Integer.parseInt(idv);
-        for(int i = 0; i < Tabla_Venta.getRowCount() ; i++){
-            int idp = Integer.parseInt(Tabla_Venta.getValueAt(i, 0).toString());
-            int cant = Integer.parseInt(Tabla_Venta.getValueAt(i, 2).toString());
-            float pre = Float.parseFloat(Tabla_Venta.getValueAt(i, 3).toString());
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        if(txtTotal.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Debe de agregar piezas!");
+        }
+        else{
+            if(ventaNTarjeta.getText().equals("") || txtPIN.getText().equals("")){
+               JOptionPane.showMessageDialog(this, "Debe ingresar datos del pago!"); 
+            }
+            else{
+                agregarRegistro();
+                Limpiar();
+                JOptionPane.showMessageDialog(this, "Venta completada!");
+            }
+        }
+        
+        
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+    void agregarRegistro(){
+        String idpz = "";
+        String piezas = "";
+        for(int i = 0 ; i < Tabla_Venta.getRowCount() ; i++){
+            idpz = Tabla_Venta.getValueAt(i, 0).toString();
+            piezas = piezas + idpz;
+            if (i < Tabla_Venta.getRowCount()-1){
+                    piezas = piezas + ", ";
+            }
             
         }
+        String fecha_venta = txtFecha.getText();
+        String total_venta = txtTotal.getText();
+        Object[] ob = new Object[3];
+        ob[0] = piezas;
+        ob[1] = fecha_venta;
+        ob[2] = total_venta;
+        rdao.add(ob);
     }
+    
+    void Limpiar(){
+       for(int i = 0 ; i < modelo.getRowCount() ; i++){
+           modelo.removeRow(i);
+           i = i - 1;
+       }
+       ventaPieza.setText("");
+       jTextField1.setText("");
+       ventaPrecio.setText("");
+       ventaDisponible.setText("");
+       ventaCant.setValue(0);
+       txtTotal.setText("");
+       ventaNTarjeta.setText("");
+       txtPIN.setText("");
+       ventaPieza.requestFocus();
+       
+    }
+    
+    private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
+        RegistroForm rf = new RegistroForm();
+        rf.setVisible(true);
+    }//GEN-LAST:event_btnRegistroActionPerformed
+    
     
     public static void main(String args[]) {
         
@@ -479,11 +514,11 @@ public class VentaForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Tabla_Venta;
     private javax.swing.JButton btnAddITem;
-    private javax.swing.JButton btnAdministrador;
     private javax.swing.JButton btnBuscarPza;
     private javax.swing.JRadioButton btnEfectivo;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnInventario;
+    private javax.swing.JButton btnRegistro;
     private javax.swing.JButton btnSalir;
     private javax.swing.JRadioButton btnTarjeta;
     private javax.swing.JLabel jLabel1;
